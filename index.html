@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INVISIO — Gere Renda com IA. Sem Aparecer.</title>
+<meta name="description" content="A plataforma gamificada que te ensina a gerar renda com Inteligência Artificial no Instagram, sem aparecer na câmera, sem seguidores, do zero.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0F172A;--bg2:#1E293B;--bg3:#0B1120;
+  --purple:#8B5CF6;--purple2:#6D28D9;--purple-glow:rgba(139,92,246,.35);
+  --green:#10B981;--green-glow:rgba(16,185,129,.2);
+  --orange:#F59E0B;--orange-glow:rgba(245,158,11,.2);
+  --text:#F9FAFB;--muted:#94A3B8;--border:rgba(139,92,246,.18);
+  --r:12px;--r2:16px;--r3:20px
+}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--purple);border-radius:4px}
+
+/* ── ORBS BG ── */
+.orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0}
+.orb1{width:600px;height:600px;background:rgba(139,92,246,.07);top:-200px;right:-200px}
+.orb2{width:400px;height:400px;background:rgba(16,185,129,.05);bottom:200px;left:-100px}
+.orb3{width:300px;height:300px;background:rgba(245,158,11,.04);top:50%;right:10%}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:16px 0;
+  background:rgba(15,23,42,.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:all .3s
+}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between}
+
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{position:relative;width:36px;height:36px}
+.logo-mark svg{width:36px;height:36px}
+.logo-word{font-size:20px;font-weight:900;letter-spacing:3px;background:linear-gradient(135deg,#8B5CF6,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+
+.nav-ctas{display:flex;align-items:center;gap:10px}
+.btn-ghost{padding:8px 18px;border-radius:8px;font-size:12px;font-weight:600;color:var(--muted);background:transparent;border:1px solid var(--border);cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s;text-decoration:none}
+.btn-ghost:hover{color:var(--text);border-color:rgba(139,92,246,.4)}
+.btn-cta{padding:9px 22px;border-radius:8px;font-size:12px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--purple),var(--purple2));border:none;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s;box-shadow:0 4px 15px var(--purple-glow);text-decoration:none;display:inline-block}
+.btn-cta:hover{transform:translateY(-1px);box-shadow:0 6px 25px var(--purple-glow)}
+
+/* ── SECTIONS ── */
+section{position:relative;z-index:1}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 28px 80px}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:6px 14px;border-radius:20px;
+  background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);
+  font-size:11px;font-weight:700;color:var(--green);
+  letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:20px
+}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.2)}}
+
+.hero-title{font-size:clamp(36px,5vw,62px);font-weight:900;line-height:1.1;margin-bottom:20px}
+.hero-title em{font-style:normal;background:linear-gradient(135deg,#8B5CF6,#A78BFA,#38BDF8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+.hero-desc{font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:32px;max-width:480px}
+
+.hero-actions{display:flex;flex-direction:column;gap:14px}
+.btn-hero{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:18px 36px;border-radius:var(--r);
+  font-size:16px;font-weight:800;color:#fff;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  border:none;cursor:pointer;font-family:'Poppins',sans-serif;
+  box-shadow:0 8px 30px var(--purple-glow);
+  transition:all .3s;text-decoration:none
+}
+.btn-hero:hover{transform:translateY(-3px);box-shadow:0 12px 40px var(--purple-glow)}
+.btn-hero-sub{font-size:12px;color:var(--muted);text-align:center}
+.btn-hero-sub strong{color:var(--green)}
+
+.hero-trust{display:flex;align-items:center;gap:16px;margin-top:8px}
+.trust-avatars{display:flex}
+.trust-av{width:28px;height:28px;border-radius:50%;border:2px solid var(--bg);margin-left:-8px;background:var(--bg2);font-size:12px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.trust-av:first-child{margin-left:0}
+.trust-txt{font-size:12px;color:var(--muted)}
+.trust-txt strong{color:var(--green)}
+
+/* HERO VISUAL */
+.hero-visual{position:relative}
+.platform-mock{
+  background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);
+  overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 60px var(--purple-glow);
+  animation:float 6s ease-in-out infinite
+}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-12px) rotate(.3deg)}}
+
+.mock-bar{background:rgba(139,92,246,.12);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;gap:8px}
+.mock-dots{display:flex;gap:5px}
+.mock-dot{width:9px;height:9px;border-radius:50%}
+.mock-title{font-size:11px;font-weight:700;color:var(--muted);margin-left:8px;letter-spacing:2px}
+.mock-xp-bar{flex:1;height:5px;background:rgba(255,255,255,.06);border-radius:20px;overflow:hidden;margin:0 16px}
+.mock-xp-fill{height:100%;width:42%;background:linear-gradient(90deg,var(--purple),#A78BFA);border-radius:20px}
+
+.mock-body{padding:18px;display:flex;gap:14px}
+.mock-sidebar{width:60px;display:flex;flex-direction:column;gap:10px}
+.mock-nav-item{width:100%;height:36px;border-radius:8px;background:rgba(255,255,255,.04)}
+.mock-nav-item.active{background:rgba(139,92,246,.2);border:1px solid rgba(139,92,246,.3)}
+
+.mock-content{flex:1;display:flex;flex-direction:column;gap:10px}
+.mock-hero-card{height:70px;border-radius:10px;background:linear-gradient(135deg,rgba(139,92,246,.25),rgba(109,40,217,.15));border:1px solid rgba(139,92,246,.3);padding:12px;display:flex;align-items:center;justify-content:space-between}
+.mock-hero-txt{display:flex;flex-direction:column;gap:4px}
+.mock-line{height:8px;border-radius:4px;background:rgba(255,255,255,.15)}
+.mock-line.w60{width:60%}
+.mock-line.w40{width:40%;background:rgba(139,92,246,.4)}
+.mock-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mock-card{height:60px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);padding:10px;display:flex;flex-direction:column;justify-content:space-between}
+.mock-card-top{display:flex;align-items:center;gap:6px}
+.mock-icon-mini{width:18px;height:18px;border-radius:5px;background:rgba(139,92,246,.2)}
+.mock-dot-status{width:6px;height:6px;border-radius:50%;margin-left:auto}
+.mock-prog{height:4px;border-radius:20px;background:rgba(255,255,255,.06);overflow:hidden}
+.mock-prog-fill{height:100%;border-radius:20px}
+
+.hero-stats-row{display:flex;gap:20px;margin-top:16px}
+.hero-stat{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:14px 20px;flex:1;text-align:center}
+.hs-num{font-size:22px;font-weight:800;background:linear-gradient(135deg,var(--purple),#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hs-label{font-size:10px;color:var(--muted);font-weight:500;margin-top:2px}
+
+/* ── LOGOS BELT ── */
+.logos-belt{padding:32px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(0,0,0,.2);overflow:hidden}
+.logos-inner{max-width:1200px;margin:0 auto;padding:0 28px}
+.logos-label{text-align:center;font-size:11px;color:var(--muted);font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px}
+.logos-track{display:flex;gap:48px;align-items:center;justify-content:center;flex-wrap:wrap}
+.logo-item{font-size:13px;font-weight:700;color:rgba(148,163,184,.4);letter-spacing:1px;display:flex;align-items:center;gap:7px}
+.logo-item svg{opacity:.35}
+
+/* ── PROBLEM ── */
+.problem{padding:100px 28px}
+.problem-inner{max-width:900px;margin:0 auto;text-align:center}
+.sec-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:12px}
+.sec-title{font-size:clamp(28px,4vw,46px);font-weight:800;line-height:1.2;margin-bottom:16px}
+.sec-desc{font-size:15px;color:var(--muted);max-width:600px;margin:0 auto 48px}
+
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px}
+.pain-card{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:var(--r2);padding:22px;text-align:left}
+.pain-icon{font-size:26px;margin-bottom:10px}
+.pain-title{font-size:13px;font-weight:700;color:#FCA5A5;margin-bottom:6px}
+.pain-txt{font-size:12px;color:rgba(252,165,165,.7);line-height:1.6}
+
+.solution-bridge{
+  padding:24px 28px;border-radius:var(--r2);
+  background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(16,185,129,.08));
+  border:1px solid rgba(139,92,246,.3);
+  font-size:15px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:12px
+}
+.bridge-arrow{color:var(--purple);font-size:20px}
+
+/* ── HOW IT WORKS ── */
+.how{padding:100px 28px;background:linear-gradient(180deg,transparent,rgba(139,92,246,.04),transparent)}
+.how-inner{max-width:1100px;margin:0 auto}
+.how-steps{display:flex;flex-direction:column;gap:0;margin-top:56px}
+.how-step{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding:48px 0;border-bottom:1px solid var(--border)}
+.how-step:last-child{border-bottom:none}
+.how-step:nth-child(even) .step-visual{order:-1}
+
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);font-size:14px;font-weight:800;color:var(--purple);margin-bottom:16px}
+.step-title{font-size:22px;font-weight:800;margin-bottom:10px}
+.step-desc{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:20px}
+.step-tags{display:flex;gap:8px;flex-wrap:wrap}
+.step-tag{padding:4px 12px;border-radius:20px;font-size:10px;font-weight:700;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);color:var(--purple)}
+
+.step-visual{border-radius:var(--r2);padding:24px;border:1px solid var(--border)}
+.sv-purple{background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(109,40,217,.08))}
+.sv-green{background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(5,150,105,.06))}
+.sv-orange{background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(217,119,6,.06))}
+
+.sv-inner{display:flex;flex-direction:column;gap:10px}
+.sv-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.04)}
+.sv-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.sv-content{flex:1}
+.sv-name{font-size:11px;font-weight:600;margin-bottom:2px}
+.sv-bar{height:4px;border-radius:20px;background:rgba(255,255,255,.06)}
+.sv-fill{height:100%;border-radius:20px}
+
+/* ── WORLDS ── */
+.worlds{padding:100px 28px}
+.worlds-inner{max-width:1200px;margin:0 auto}
+.worlds-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:48px}
+.world-pill{
+  border-radius:var(--r);padding:18px 14px;text-align:center;
+  border:1px solid var(--border);background:var(--bg2);
+  transition:all .3s;cursor:default
+}
+.world-pill:hover{border-color:rgba(139,92,246,.4);transform:translateY(-3px);box-shadow:0 10px 30px rgba(139,92,246,.15)}
+.wp-num{font-size:9px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.wp-icon{margin-bottom:8px}
+.wp-icon svg{width:32px;height:32px}
+.wp-title{font-size:11px;font-weight:700;line-height:1.3;margin-bottom:4px}
+.wp-xp{font-size:9px;color:var(--orange);font-weight:600}
+.wp-lock{font-size:9px;color:rgba(148,163,184,.4);margin-top:4px}
+
+/* ── GAMIFICATION ── */
+.gamif{padding:100px 28px;background:linear-gradient(180deg,transparent,rgba(16,185,129,.03),transparent)}
+.gamif-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.gamif-features{display:flex;flex-direction:column;gap:20px;margin-top:36px}
+.gf-item{display:flex;gap:14px;padding:18px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg2);transition:border-color .2s}
+.gf-item:hover{border-color:rgba(139,92,246,.35)}
+.gf-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.gf-gi{background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.25)}
+.gf-go{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.22)}
+.gf-gg{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.22)}
+.gf-gb{background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.2)}
+.gf-title{font-size:13px;font-weight:700;margin-bottom:4px}
+.gf-desc{font-size:11.5px;color:var(--muted);line-height:1.6}
+
+.gamif-visual{position:relative}
+.level-card{border-radius:var(--r2);overflow:hidden;border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lc-top{background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(109,40,217,.2));padding:24px}
+.lc-shado{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.shado-orb{width:48px;height:48px;border-radius:50%;background:rgba(139,92,246,.2);border:2px solid rgba(139,92,246,.4);display:flex;align-items:center;justify-content:center;position:relative}
+.shado-eye-row{display:flex;gap:5px}
+.shado-eye{width:7px;height:7px;border-radius:50%;background:var(--purple);box-shadow:0 0 8px var(--purple)}
+.lc-user-name{font-size:15px;font-weight:700}
+.lc-user-level{font-size:11px;color:var(--purple)}
+.lc-xp-section{margin-top:4px}
+.lc-xp-row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:6px}
+.lc-xp-bar{height:8px;background:rgba(255,255,255,.1);border-radius:20px;overflow:hidden}
+.lc-xp-fill{height:100%;width:67%;background:linear-gradient(90deg,var(--purple),#A78BFA)}
+.lc-bottom{background:var(--bg2);padding:18px}
+.lc-missions{display:flex;flex-direction:column;gap:8px}
+.lc-mission{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.03)}
+.lc-m-icon{width:28px;height:28px;border-radius:7px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.25);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.lc-m-title{font-size:11px;font-weight:600;flex:1}
+.lc-m-xp{font-size:10px;font-weight:700;color:var(--orange)}
+.lc-m-done{width:18px;height:18px;border-radius:50%;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--green)}
+
+/* ── RESULTS ── */
+.results{padding:100px 28px}
+.results-inner{max-width:1100px;margin:0 auto}
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.result-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:28px;position:relative;overflow:hidden;transition:all .3s}
+.result-card:hover{border-color:rgba(139,92,246,.3);transform:translateY(-4px)}
+.result-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.rc-purple::before{background:linear-gradient(90deg,var(--purple),transparent)}
+.rc-green::before{background:linear-gradient(90deg,var(--green),transparent)}
+.rc-orange::before{background:linear-gradient(90deg,var(--orange),transparent)}
+.result-avatar{width:44px;height:44px;border-radius:50%;margin-bottom:14px;font-size:20px;display:flex;align-items:center;justify-content:center}
+.ra-p{background:rgba(139,92,246,.15);border:2px solid rgba(139,92,246,.3)}
+.ra-g{background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.25)}
+.ra-o{background:rgba(245,158,11,.12);border:2px solid rgba(245,158,11,.25)}
+.result-stars{color:var(--orange);font-size:13px;margin-bottom:10px;letter-spacing:1px}
+.result-quote{font-size:13px;color:rgba(249,250,251,.8);line-height:1.7;margin-bottom:14px;font-style:italic}
+.result-name{font-size:12px;font-weight:700}
+.result-role{font-size:10px;color:var(--muted)}
+.result-badge{display:inline-block;margin-top:8px;padding:3px 10px;border-radius:20px;font-size:9px;font-weight:700}
+.rb-p{background:rgba(139,92,246,.15);color:var(--purple);border:1px solid rgba(139,92,246,.3)}
+.rb-g{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.25)}
+.rb-o{background:rgba(245,158,11,.12);color:var(--orange);border:1px solid rgba(245,158,11,.25)}
+
+/* ── PRICING ── */
+.pricing{padding:100px 28px;background:linear-gradient(180deg,transparent,rgba(139,92,246,.04),transparent)}
+.pricing-inner{max-width:1100px;margin:0 auto;text-align:center}
+.pricing-toggle{display:inline-flex;background:var(--bg2);border:1px solid var(--border);border-radius:25px;padding:4px;margin-bottom:48px;gap:0}
+.pt-btn{padding:8px 22px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:'Poppins',sans-serif;transition:all .2s;color:var(--muted);background:transparent}
+.pt-btn.active{background:var(--purple);color:#fff;box-shadow:0 4px 12px var(--purple-glow)}
+.annual-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:9px;font-weight:700;background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.25);margin-left:6px;vertical-align:middle}
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:left}
+.plan-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:28px;position:relative;overflow:hidden;transition:all .3s}
+.plan-card:hover:not(.plan-featured){transform:translateY(-4px)}
+.plan-featured{border-color:var(--purple);box-shadow:0 0 40px var(--purple-glow)}
+.plan-featured-badge{position:absolute;top:0;right:24px;background:var(--purple);color:#fff;font-size:9px;font-weight:800;padding:4px 12px;border-radius:0 0 8px 8px;letter-spacing:1px;text-transform:uppercase}
+.plan-name{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.plan-price-row{display:flex;align-items:baseline;gap:4px;margin-bottom:4px}
+.plan-currency{font-size:18px;font-weight:600;color:var(--muted)}
+.plan-price{font-size:44px;font-weight:900;line-height:1}
+.plan-period{font-size:12px;color:var(--muted)}
+.plan-desc{font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.6}
+.plan-divider{height:1px;background:var(--border);margin-bottom:20px}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.plan-features li{display:flex;align-items:flex-start;gap:10px;font-size:12.5px;color:rgba(249,250,251,.8)}
+.feature-check{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;margin-top:2px}
+.fc-yes{background:rgba(16,185,129,.2);color:var(--green)}
+.fc-no{background:rgba(255,255,255,.05);color:rgba(148,163,184,.4)}
+.btn-plan{
+  display:block;width:100%;padding:13px;border-radius:10px;
+  font-size:13px;font-weight:700;cursor:pointer;
+  font-family:'Poppins',sans-serif;transition:all .2s;text-align:center;text-decoration:none
+}
+.btn-plan-outline{background:transparent;border:1px solid rgba(139,92,246,.4);color:var(--purple)}
+.btn-plan-outline:hover{background:rgba(139,92,246,.1)}
+.btn-plan-filled{background:linear-gradient(135deg,var(--purple),var(--purple2));border:none;color:#fff;box-shadow:0 6px 20px var(--purple-glow)}
+.btn-plan-filled:hover{transform:translateY(-2px);box-shadow:0 10px 30px var(--purple-glow)}
+.plan-guarantee{text-align:center;font-size:11px;color:var(--muted);margin-top:20px;display:flex;align-items:center;justify-content:center;gap:6px}
+.pricing-extra{display:flex;justify-content:center;gap:32px;margin-top:40px;flex-wrap:wrap}
+.pe-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+
+/* ── FAQ ── */
+.faq{padding:100px 28px}
+.faq-inner{max-width:720px;margin:0 auto}
+.faq-list{margin-top:48px;display:flex;flex-direction:column;gap:0}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-question{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 0;cursor:pointer;font-size:14px;font-weight:600;
+  transition:color .2s
+}
+.faq-question:hover{color:var(--purple)}
+.faq-chevron{width:20px;height:20px;border-radius:50%;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--purple);transition:transform .3s;flex-shrink:0}
+.faq-chevron.open{transform:rotate(180deg)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq-answer-inner{padding-bottom:18px;font-size:13px;color:var(--muted);line-height:1.75}
+
+/* ── FINAL CTA ── */
+.final-cta{padding:80px 28px 120px}
+.final-inner{max-width:760px;margin:0 auto;text-align:center}
+.cta-card{
+  border-radius:24px;padding:56px 48px;
+  background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(109,40,217,.12),rgba(16,185,129,.08));
+  border:1px solid rgba(139,92,246,.3);
+  position:relative;overflow:hidden
+}
+.cta-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(139,92,246,.15),transparent 60%)}
+.cta-title{font-size:clamp(26px,4vw,44px);font-weight:900;line-height:1.15;margin-bottom:14px;position:relative}
+.cta-desc{font-size:15px;color:var(--muted);margin-bottom:36px;position:relative}
+.cta-actions{display:flex;flex-direction:column;align-items:center;gap:12px;position:relative}
+.btn-cta-big{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:20px 48px;border-radius:var(--r);
+  font-size:16px;font-weight:800;color:#fff;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  border:none;cursor:pointer;font-family:'Poppins',sans-serif;
+  box-shadow:0 10px 40px var(--purple-glow);
+  transition:all .3s;text-decoration:none
+}
+.btn-cta-big:hover{transform:translateY(-3px);box-shadow:0 16px 50px var(--purple-glow)}
+.cta-fine{font-size:11px;color:var(--muted)}
+.cta-guarantee{display:flex;align-items:center;justify-content:center;gap:24px;margin-top:28px;flex-wrap:wrap;position:relative}
+.cg-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}
+.cg-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:40px 28px;background:var(--bg3)}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:12px;color:var(--muted);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--text)}
+.footer-copy{font-size:11px;color:rgba(148,163,184,.4)}
+
+/* ── ANIMATIONS ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-visual{display:none}
+  .gamif-inner{grid-template-columns:1fr}
+  .gamif-visual{display:none}
+  .how-step{grid-template-columns:1fr}
+  .how-step:nth-child(even) .step-visual{order:0}
+  .pain-grid{grid-template-columns:1fr}
+  .worlds-grid{grid-template-columns:repeat(2,1fr)}
+  .results-grid{grid-template-columns:1fr}
+  .plans-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- BG ORBS -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="36" height="36" rx="10" fill="rgba(139,92,246,0.15)" stroke="rgba(139,92,246,0.4)" stroke-width="1"/>
+          <ellipse cx="18" cy="18" rx="10" ry="6.5" fill="none" stroke="#8B5CF6" stroke-width="1.4"/>
+          <circle cx="18" cy="18" r="3.5" fill="none" stroke="#8B5CF6" stroke-width="1.4"/>
+          <circle cx="18" cy="18" r="1.4" fill="#8B5CF6"/>
+          <line x1="18" y1="6" x2="18" y2="11" stroke="#8B5CF6" stroke-width="1.3" stroke-linecap="round" opacity=".7"/>
+          <line x1="13" y1="7" x2="23" y2="7" stroke="#8B5CF6" stroke-width="1.3" stroke-linecap="round" opacity=".7"/>
+          <line x1="18" y1="25" x2="18" y2="30" stroke="#8B5CF6" stroke-width="1.3" stroke-linecap="round" opacity=".7"/>
+          <line x1="13" y1="29" x2="23" y2="29" stroke="#8B5CF6" stroke-width="1.3" stroke-linecap="round" opacity=".7"/>
+        </svg>
+      </div>
+      <span class="logo-word">INVISIO</span>
+    </a>
+    <div class="nav-links">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#mundos">Mundos</a>
+      <a href="#resultados">Resultados</a>
+      <a href="#precos">Preços</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-ctas">
+      <a href="#login" class="btn-ghost">Entrar</a>
+      <a href="#precos" class="btn-cta">Começar grátis →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left reveal">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        Plataforma gamificada de renda com IA
+      </div>
+      <h1 class="hero-title">
+        Gere renda com IA.<br>
+        <em>Sem aparecer.</em><br>
+        Do zero.
+      </h1>
+      <p class="hero-desc">
+        O único ambiente onde você não apenas aprende — você <strong style="color:#F9FAFB">executa</strong>. Cada missão que você completa gera XP real, desbloqueia mundos e te aproxima da sua primeira comissão como afiliado.
+      </p>
+      <div class="hero-actions">
+        <a href="#precos" class="btn-hero">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Criar minha conta grátis
+        </a>
+        <div class="btn-hero-sub">7 dias de acesso total grátis · <strong>Sem cartão de crédito</strong></div>
+        <div class="hero-trust">
+          <div class="trust-avatars">
+            <div class="trust-av">👤</div>
+            <div class="trust-av">👤</div>
+            <div class="trust-av">👤</div>
+            <div class="trust-av">👤</div>
+            <div class="trust-av" style="background:rgba(139,92,246,.2);color:var(--purple);font-size:9px;font-weight:700">+1k</div>
+          </div>
+          <div class="trust-txt"><strong>+1.200 alunos</strong> já gerando renda com IA</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right reveal" style="transition-delay:.2s">
+      <div class="hero-visual">
+        <div class="platform-mock">
+          <div class="mock-bar">
+            <div class="mock-dots">
+              <div class="mock-dot" style="background:#EF4444"></div>
+              <div class="mock-dot" style="background:#F59E0B"></div>
+              <div class="mock-dot" style="background:#10B981"></div>
+            </div>
+            <div class="mock-xp-bar"><div class="mock-xp-fill"></div></div>
+            <span class="mock-title">INVISIO</span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-sidebar">
+              <div class="mock-nav-item active"></div>
+              <div class="mock-nav-item"></div>
+              <div class="mock-nav-item"></div>
+              <div class="mock-nav-item"></div>
+              <div class="mock-nav-item"></div>
+            </div>
+            <div class="mock-content">
+              <div class="mock-hero-card">
+                <div class="mock-hero-txt">
+                  <div class="mock-line w60"></div>
+                  <div class="mock-line w40"></div>
+                </div>
+                <div style="font-size:36px;opacity:.7">🤖</div>
+              </div>
+              <div class="mock-cards">
+                <div class="mock-card">
+                  <div class="mock-card-top"><div class="mock-icon-mini" style="background:rgba(139,92,246,.25)"></div><div class="mock-dot-status" style="background:#10B981"></div></div>
+                  <div class="mock-prog"><div class="mock-prog-fill" style="width:100%;background:var(--green)"></div></div>
+                </div>
+                <div class="mock-card">
+                  <div class="mock-card-top"><div class="mock-icon-mini" style="background:rgba(16,185,129,.2)"></div><div class="mock-dot-status" style="background:#10B981"></div></div>
+                  <div class="mock-prog"><div class="mock-prog-fill" style="width:100%;background:var(--green)"></div></div>
+                </div>
+                <div class="mock-card">
+                  <div class="mock-card-top"><div class="mock-icon-mini" style="background:rgba(139,92,246,.2)"></div><div class="mock-dot-status" style="background:#8B5CF6"></div></div>
+                  <div class="mock-prog"><div class="mock-prog-fill" style="width:55%;background:var(--purple)"></div></div>
+                </div>
+                <div class="mock-card">
+                  <div class="mock-card-top"><div class="mock-icon-mini" style="background:rgba(245,158,11,.15)"></div><div class="mock-dot-status" style="background:rgba(148,163,184,.25)"></div></div>
+                  <div class="mock-prog"><div class="mock-prog-fill" style="width:0%"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-stats-row">
+          <div class="hero-stat"><div class="hs-num">+350</div><div class="hs-label">XP ganhos hoje</div></div>
+          <div class="hero-stat"><div class="hs-num">Executor</div><div class="hs-label">Nível atual</div></div>
+          <div class="hero-stat"><div class="hs-num" style="background:linear-gradient(135deg,var(--green),#34D399);-webkit-background-clip:text;-webkit-text-fill-color:transparent">🔥 3</div><div class="hs-label">Dias de streak</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS BELT -->
+<div class="logos-belt">
+  <div class="logos-inner">
+    <div class="logos-label">Ferramentas que você vai dominar</div>
+    <div class="logos-track">
+      <div class="logo-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>
+        ChatGPT
+      </div>
+      <div class="logo-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+        Claude AI
+      </div>
+      <div class="logo-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+        Canva AI
+      </div>
+      <div class="logo-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.899L15 14M3 8h12v8H3z"/></svg>
+        CapCut
+      </div>
+      <div class="logo-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        Hotmart
+      </div>
+      <div class="logo-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        Instagram
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem" id="problema">
+  <div class="problem-inner reveal">
+    <div class="sec-label">O problema</div>
+    <h2 class="sec-title">Por que 97% das pessoas não conseguem ganhar dinheiro online</h2>
+    <p class="sec-desc">Não é falta de inteligência. É falta de método, de sistema e de execução guiada.</p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">😵</div>
+        <div class="pain-title">Excesso de informação, zero ação</div>
+        <div class="pain-txt">Você assiste 50 vídeos no YouTube, compra cursos, lê threads... e não executa nada. O loop de aprendizado sem resultado.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🎥</div>
+        <div class="pain-title">Vergonha de aparecer na câmera</div>
+        <div class="pain-txt">Todo mundo te diz que precisa aparecer, construir audiência, ser influencer. E aí você trava e não começa.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">⏰</div>
+        <div class="pain-title">Sem tempo para criar conteúdo</div>
+        <div class="pain-txt">Criar posts, roteiros, legendas, designs... Parece impossível conciliar com a vida real. E você desiste antes de ver resultado.</div>
+      </div>
+    </div>
+    <div class="solution-bridge">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      O INVISIO resolve os 3 problemas ao mesmo tempo — com IA, gamificação e execução guiada passo a passo
+      <span class="bridge-arrow">→</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="como-funciona">
+  <div class="how-inner">
+    <div style="text-align:center" class="reveal">
+      <div class="sec-label">Como funciona</div>
+      <h2 class="sec-title">Do zero à primeira venda em 7 dias</h2>
+      <p class="sec-desc">Três pilares que transformam aprendizado em resultado real.</p>
+    </div>
+    <div class="how-steps">
+      <div class="how-step reveal">
+        <div class="step-content">
+          <div class="step-num">01</div>
+          <h3 class="step-title">Você executa, a IA trabalha</h3>
+          <p class="step-desc">Esqueça criar conteúdo do zero. Você usa prompts prontos para gerar legendas, roteiros de Reels e carrosséis em minutos. A IA faz o trabalho pesado, você só direciona e publica.</p>
+          <div class="step-tags">
+            <span class="step-tag">ChatGPT</span>
+            <span class="step-tag">Claude AI</span>
+            <span class="step-tag">Prompts prontos</span>
+            <span class="step-tag">Canva IA</span>
+          </div>
+        </div>
+        <div class="step-visual sv-purple">
+          <div class="sv-inner">
+            <div class="sv-row">
+              <div class="sv-icon" style="background:rgba(139,92,246,.2);border:1px solid rgba(139,92,246,.3)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3"/></svg>
+              </div>
+              <div class="sv-content">
+                <div class="sv-name" style="color:var(--purple);font-size:10px">Prompt executado</div>
+                <div style="font-size:10px;color:var(--muted)">Legenda educativa + CTA gerada</div>
+              </div>
+              <div style="color:var(--green);font-size:10px;font-weight:700">+15 XP</div>
+            </div>
+            <div class="sv-row">
+              <div class="sv-icon" style="background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.25)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="sv-content">
+                <div class="sv-name" style="color:var(--green);font-size:10px">Post publicado</div>
+                <div style="font-size:10px;color:var(--muted)">Carrossel no Instagram</div>
+              </div>
+              <div style="color:var(--green);font-size:10px;font-weight:700">+25 XP</div>
+            </div>
+            <div class="sv-row">
+              <div class="sv-icon" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="sv-content">
+                <div class="sv-name" style="color:var(--orange);font-size:10px">Missão diária completa</div>
+                <div style="font-size:10px;color:var(--muted)">1 link de afiliado publicado</div>
+              </div>
+              <div style="color:var(--orange);font-size:10px;font-weight:700">+75 XP</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="how-step reveal">
+        <div class="step-content">
+          <div class="step-num">02</div>
+          <h3 class="step-title">Você vende sem aparecer</h3>
+          <p class="step-desc">Perfis anônimos, textos animados, vozes sintéticas. Você monta toda a operação sem mostrar o rosto. Seu mascote virtual Shado guia cada decisão.</p>
+          <div class="step-tags">
+            <span class="step-tag">Perfil anônimo</span>
+            <span class="step-tag">Sem câmera</span>
+            <span class="step-tag">CapCut IA</span>
+            <span class="step-tag">Linktree</span>
+          </div>
+        </div>
+        <div class="step-visual sv-green">
+          <div style="text-align:center;padding:8px 0">
+            <div style="font-size:10px;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px">Perfil que converte — sem aparecer</div>
+            <div style="display:inline-block;padding:14px 20px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--border);text-align:left;width:100%;max-width:260px">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <div style="width:36px;height:36px;border-radius:50%;background:rgba(16,185,129,.2);border:2px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78a5.5 5.5 0 000-7.78z"/></svg>
+                </div>
+                <div>
+                  <div style="font-size:12px;font-weight:700">@dicasparaemagrecer</div>
+                  <div style="font-size:9px;color:var(--muted)">Perfil de nicho · Anônimo</div>
+                </div>
+              </div>
+              <div style="font-size:10px;color:rgba(249,250,251,.7);line-height:1.6;margin-bottom:10px">🔥 Receitas fit e dicas para emagrecer<br>✅ Para mães ocupadas acima de 30<br>📲 Acesse o plano gratuito</div>
+              <div style="height:28px;border-radius:7px;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--green)">🔗 linktr.ee/dicafit</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="how-step reveal">
+        <div class="step-content">
+          <div class="step-num">03</div>
+          <h3 class="step-title">O sistema escala sozinho</h3>
+          <p class="step-desc">Você cria 1 semana de conteúdo em 2 horas, agenda tudo automaticamente e acompanha as métricas. Quando funcionar, você abre o segundo perfil.</p>
+          <div class="step-tags">
+            <span class="step-tag">Agendamento</span>
+            <span class="step-tag">Banco de conteúdo</span>
+            <span class="step-tag">Analytics</span>
+            <span class="step-tag">Segundo perfil</span>
+          </div>
+        </div>
+        <div class="step-visual sv-orange">
+          <div class="sv-inner">
+            <div style="font-size:10px;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Calendário de conteúdo da semana</div>
+            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+              <div style="text-align:center;font-size:8px;color:var(--muted);font-weight:600;padding:2px">SEG</div>
+              <div style="text-align:center;font-size:8px;color:var(--muted);font-weight:600;padding:2px">TER</div>
+              <div style="text-align:center;font-size:8px;color:var(--muted);font-weight:600;padding:2px">QUA</div>
+              <div style="text-align:center;font-size:8px;color:var(--muted);font-weight:600;padding:2px">QUI</div>
+              <div style="text-align:center;font-size:8px;color:var(--muted);font-weight:600;padding:2px">SEX</div>
+              <div style="text-align:center;font-size:8px;color:var(--muted);font-weight:600;padding:2px">SÁB</div>
+              <div style="text-align:center;font-size:8px;color:var(--muted);font-weight:600;padding:2px">DOM</div>
+              <div style="height:26px;border-radius:5px;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.3)"></div>
+              <div style="height:26px;border-radius:5px;background:rgba(139,92,246,.2);border:1px solid rgba(139,92,246,.3)"></div>
+              <div style="height:26px;border-radius:5px;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.3)"></div>
+              <div style="height:26px;border-radius:5px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.25)"></div>
+              <div style="height:26px;border-radius:5px;background:rgba(139,92,246,.2);border:1px solid rgba(139,92,246,.3)"></div>
+              <div style="height:26px;border-radius:5px;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.3)"></div>
+              <div style="height:26px;border-radius:5px;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.25)"></div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+              <span style="font-size:8px;font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(16,185,129,.15);color:var(--green)">■ Reel</span>
+              <span style="font-size:8px;font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(139,92,246,.15);color:var(--purple)">■ Carrossel</span>
+              <span style="font-size:8px;font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(245,158,11,.12);color:var(--orange)">■ Story</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORLDS -->
+<section class="worlds" id="mundos">
+  <div class="worlds-inner">
+    <div style="text-align:center" class="reveal">
+      <div class="sec-label">Conteúdo</div>
+      <h2 class="sec-title">10 Mundos. 9 semanas. 1 sistema completo.</h2>
+      <p class="sec-desc">Cada mundo é um nível do jogo. Você desbloqueia o próximo apenas quando executa o anterior — garantindo que você aplica, não só aprende.</p>
+    </div>
+    <div class="worlds-grid reveal" style="transition-delay:.1s">
+      <div class="world-pill"><div class="wp-num">Mundo 0</div><div class="wp-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="rgba(139,92,246,0.15)" stroke="rgba(139,92,246,0.4)" stroke-width="1.5"/><path d="M8 16 Q16 10 24 16 Q16 22 8 16Z" fill="none" stroke="#8B5CF6" stroke-width="1.5"/><circle cx="16" cy="16" r="4" fill="none" stroke="#8B5CF6" stroke-width="1.5"/><circle cx="16" cy="16" r="1.8" fill="#8B5CF6"/></svg></div><div class="wp-title">Despertar</div><div class="wp-xp">+150 XP</div></div>
+      <div class="world-pill"><div class="wp-num">Mundo 1</div><div class="wp-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="3" y="3" width="26" height="26" rx="7" fill="rgba(139,92,246,0.12)" stroke="rgba(139,92,246,0.35)" stroke-width="1.5"/><path d="M10 16 L15 21 L22 11" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="wp-title">Central de Comando</div><div class="wp-xp">+200 XP</div></div>
+      <div class="world-pill"><div class="wp-num">Mundo 2</div><div class="wp-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><polygon points="16,4 29,26 3,26" fill="rgba(56,189,248,0.12)" stroke="rgba(56,189,248,0.4)" stroke-width="1.5" stroke-linejoin="round"/><circle cx="16" cy="19" r="3" fill="#38BDF8" opacity=".8"/></svg></div><div class="wp-title">Vale de Nichos</div><div class="wp-xp">+250 XP</div></div>
+      <div class="world-pill"><div class="wp-num">Mundo 3</div><div class="wp-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><polygon points="16,3 20,12 30,12 22,19 25,29 16,23 7,29 10,19 2,12 12,12" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.4)" stroke-width="1.5"/></svg></div><div class="wp-title">Mina de Produtos</div><div class="wp-xp">+300 XP</div></div>
+      <div class="world-pill"><div class="wp-num">Mundo 4</div><div class="wp-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" fill="rgba(139,92,246,0.12)" stroke="rgba(139,92,246,0.3)" stroke-width="1.5"/><path d="M10 16 h4 l2-6 l2 12 l2-6 h2" stroke="#8B5CF6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div><div class="wp-title">Lab de Prompts</div><div class="wp-xp">+350 XP</div></div>
+      <div class="world-pill"><div class="wp-num">Mundo 5</div><div class="wp-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="3" y="9" width="18" height="14" rx="4" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.35)" stroke-width="1.5"/><path d="M21 13 L29 9 L29 23 L21 19" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.35)" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="wp-title">Fábrica de Conteúdo</div><div class="wp-xp">+400 XP</div><div class="wp-lock" style="color:rgba(148,163,184,.3)">🔒</div></div>
+      <div class="world-pill"><div class="wp-num">Mundo 6</div><div class="wp-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="12" r="6" fill="rgba(244,114,182,0.12)" stroke="rgba(244,114,182,0.35)" stroke-width="1.5"/><path d="M6 28 Q6 20 16 20 Q26 20 26 28" stroke="rgba(244,114,182,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="wp-title">Perfil que Converte</div><div class="wp-xp">+350 XP</div><div class="wp-lock" style="color:rgba(148,163,184,.3)">🔒</div></div>
+      <div class="world-pill"><div class="wp-num">Mundo 7</div><div class="wp-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 4 L28 28 L4 28 Z" fill="rgba(239,68,68,0.1)" stroke="rgba(239,68,68,0.35)" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 14 L16 22 M16 26 L16 26" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg></div><div class="wp-title">Máquina de Vendas</div><div class="wp-xp">+500 XP</div><div class="wp-lock" style="color:rgba(148,163,184,.3)">🔒</div></div>
+      <div class="world-pill"><div class="wp-num">Mundo 8</div><div class="wp-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><ellipse cx="16" cy="16" rx="13" ry="8" fill="rgba(139,92,246,0.1)" stroke="rgba(139,92,246,0.3)" stroke-width="1.5"/><circle cx="16" cy="16" r="4" fill="rgba(15,23,42,1)" stroke="rgba(139,92,246,0.5)" stroke-width="1.5"/><circle cx="16" cy="16" r="1.5" fill="#8B5CF6"/></svg></div><div class="wp-title">Invisibilidade Total</div><div class="wp-xp">+450 XP</div><div class="wp-lock" style="color:rgba(148,163,184,.3)">🔒</div></div>
+      <div class="world-pill"><div class="wp-num">Mundo 9</div><div class="wp-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="13" fill="rgba(16,185,129,0.1)" stroke="rgba(16,185,129,0.35)" stroke-width="1.5"/><path d="M10 22 L16 10 L22 22" stroke="#10B981" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="11.5" y1="18" x2="20.5" y2="18" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="wp-title">Modo Automação</div><div class="wp-xp">+600 XP</div><div class="wp-lock" style="color:rgba(148,163,184,.3)">🔒</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GAMIFICATION -->
+<section class="gamif">
+  <div class="gamif-inner">
+    <div class="reveal">
+      <div class="sec-label">Gamificação</div>
+      <h2 class="sec-title">Aprender nunca foi tão viciante</h2>
+      <p style="font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:8px">Cada ação dentro da plataforma te dá XP real. Você sobe de nível, desbloqueia mundos e recebe feedback imediato — como um jogo, mas com dinheiro real no final.</p>
+      <div class="gamif-features">
+        <div class="gf-item"><div class="gf-icon gf-gi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div><div class="gf-title">XP por execução, não por assistir</div><div class="gf-desc">Você só ganha XP quando age: completa aulas, risca checklists, publica conteúdo. Sem ação = sem progresso.</div></div></div>
+        <div class="gf-item"><div class="gf-icon gf-go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div><div><div class="gf-title">Níveis: Iniciante até Lendário</div><div class="gf-desc">8 níveis de progressão com nomes únicos. Cada nível desbloqueia novos mundos e recompensas.</div></div></div>
+        <div class="gf-item"><div class="gf-icon gf-gg"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div><div class="gf-title">Missões diárias e semanais</div><div class="gf-desc">Novas missões toda semana com XP de bônus. Streak de dias consecutivos dá recompensas especiais.</div></div></div>
+        <div class="gf-item"><div class="gf-icon gf-gb"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12"/></svg></div><div><div class="gf-title">Shado — seu guia de IA</div><div class="gf-desc">Mascote que monitora seu progresso, dá dicas contextuais e te empurra quando você para de agir.</div></div></div>
+      </div>
+    </div>
+    <div class="gamif-visual reveal" style="transition-delay:.15s">
+      <div class="level-card">
+        <div class="lc-top">
+          <div class="lc-shado">
+            <div class="shado-orb"><div class="shado-eye-row"><div class="shado-eye"></div><div class="shado-eye"></div></div></div>
+            <div><div class="lc-user-name">Olá, Operador!</div><div class="lc-user-level">Nível 3 · Executor</div></div>
+          </div>
+          <div class="lc-xp-section">
+            <div class="lc-xp-row"><span style="color:rgba(249,250,251,.6);font-size:11px">Progresso do nível</span><span style="color:var(--purple);font-weight:700;font-size:11px">1.340 / 2.500 XP</span></div>
+            <div class="lc-xp-bar"><div class="lc-xp-fill"></div></div>
+          </div>
+        </div>
+        <div class="lc-bottom">
+          <div style="font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Missões de hoje</div>
+          <div class="lc-missions">
+            <div class="lc-mission"><div class="lc-m-icon">🎯</div><div class="lc-m-title">Escolher produto afiliado</div><div class="lc-m-xp">+75 XP</div><div class="lc-m-done">✓</div></div>
+            <div class="lc-mission"><div class="lc-m-icon">✍️</div><div class="lc-m-title">Criar legenda com IA</div><div class="lc-m-xp">+50 XP</div><div style="width:18px;height:18px;border-radius:50%;border:1px solid rgba(139,92,246,.3)"></div></div>
+            <div class="lc-mission"><div class="lc-m-icon">📱</div><div class="lc-m-title">Publicar primeiro Reel</div><div class="lc-m-xp">+100 XP</div><div style="width:18px;height:18px;border-radius:50%;border:1px solid rgba(139,92,246,.3)"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="results" id="resultados">
+  <div class="results-inner">
+    <div style="text-align:center" class="reveal">
+      <div class="sec-label">Resultados</div>
+      <h2 class="sec-title">Alunos reais. Resultados reais.</h2>
+      <p class="sec-desc">Pessoas comuns que usaram o método e fizeram suas primeiras vendas.</p>
+    </div>
+    <div class="results-grid">
+      <div class="result-card rc-green reveal">
+        <div class="result-avatar ra-g">👩</div>
+        <div class="result-stars">★★★★★</div>
+        <div class="result-quote">"Em 9 dias fiz minha primeira venda de R$147. Nunca apareci na câmera, usei os prompts e segui as missões. Parece jogo mas o dinheiro é real."</div>
+        <div class="result-name">Camila R.</div>
+        <div class="result-role">Mãe, 34 anos · Nicho: emagrecimento</div>
+        <div class="result-badge rb-g">+R$147 em 9 dias</div>
+      </div>
+      <div class="result-card rc-purple reveal" style="transition-delay:.1s">
+        <div class="result-avatar ra-p">👨</div>
+        <div class="result-stars">★★★★★</div>
+        <div class="result-quote">"Tentei 3 cursos antes e não consegui resultado. No INVISIO a estrutura de missões me forçou a executar. Em 3 semanas bati R$800 de comissão."</div>
+        <div class="result-name">Diego M.</div>
+        <div class="result-role">Servidor público, 28 anos · Nicho: renda extra</div>
+        <div class="result-badge rb-p">+R$800 em 21 dias</div>
+      </div>
+      <div class="result-card rc-orange reveal" style="transition-delay:.2s">
+        <div class="result-avatar ra-o">👩</div>
+        <div class="result-stars">★★★★★</div>
+        <div class="result-quote">"Sou professora e tenho vergonha de aparecer. O método de perfil anônimo foi o que precisava. Hoje tenho 2 perfis rodando e faço R$1.200/mês."</div>
+        <div class="result-name">Ana P.</div>
+        <div class="result-role">Professora, 41 anos · Nicho: desenvolvimento pessoal</div>
+        <div class="result-badge rb-o">+R$1.200/mês em 2 meses</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="precos">
+  <div class="pricing-inner">
+    <div class="reveal">
+      <div class="sec-label">Planos</div>
+      <h2 class="sec-title">Comece grátis. Escale quando quiser.</h2>
+      <p class="sec-desc">Sem contratos longos. Cancele quando quiser.</p>
+    </div>
+    <div class="reveal" style="transition-delay:.1s">
+      <div class="pricing-toggle">
+        <button class="pt-btn active" id="btnMonthly" onclick="togglePricing('monthly')">Mensal</button>
+        <button class="pt-btn" id="btnAnnual" onclick="togglePricing('annual')">Anual <span class="annual-badge">-40%</span></button>
+      </div>
+    </div>
+    <div class="plans-grid reveal" style="transition-delay:.15s">
+      <div class="plan-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price-row"><span class="plan-currency">R$</span><span class="plan-price" id="price-starter">67</span><span class="plan-period">/mês</span></div>
+        <p class="plan-desc">Perfeito para começar. Acesso aos primeiros 5 mundos e todas as ferramentas essenciais.</p>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li><div class="feature-check fc-yes">✓</div>Mundos 0 a 4 desbloqueados</li>
+          <li><div class="feature-check fc-yes">✓</div>20 prompts prontos de IA</li>
+          <li><div class="feature-check fc-yes">✓</div>Missões diárias</li>
+          <li><div class="feature-check fc-yes">✓</div>Sistema de XP e níveis</li>
+          <li><div class="feature-check fc-yes">✓</div>Plano de 7 dias</li>
+          <li><div class="feature-check fc-no">✗</div><span style="opacity:.4">Mundos 5 ao 9</span></li>
+          <li><div class="feature-check fc-no">✗</div><span style="opacity:.4">Suporte prioritário</span></li>
+        </ul>
+        <a href="#" class="btn-plan btn-plan-outline">Começar com Starter</a>
+      </div>
+
+      <div class="plan-card plan-featured">
+        <div class="plan-featured-badge">Mais popular</div>
+        <div class="plan-name" style="color:var(--purple)">Pro</div>
+        <div class="plan-price-row"><span class="plan-currency">R$</span><span class="plan-price" id="price-pro">97</span><span class="plan-period">/mês</span></div>
+        <p class="plan-desc">Acesso completo aos 10 mundos, suporte prioritário e todos os recursos de escala.</p>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li><div class="feature-check fc-yes">✓</div>Todos os 10 mundos</li>
+          <li><div class="feature-check fc-yes">✓</div>100+ prompts especializados</li>
+          <li><div class="feature-check fc-yes">✓</div>Missões diárias + semanais</li>
+          <li><div class="feature-check fc-yes">✓</div>Inventário ilimitado</li>
+          <li><div class="feature-check fc-yes">✓</div>Shado IA personalizado</li>
+          <li><div class="feature-check fc-yes">✓</div>Suporte em até 24h</li>
+          <li><div class="feature-check fc-yes">✓</div>Atualizações vitalícias</li>
+        </ul>
+        <a href="#" class="btn-plan btn-plan-filled">Começar Pro — 7 dias grátis</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-name">Lifetime</div>
+        <div class="plan-price-row"><span class="plan-currency">R$</span><span class="plan-price">497</span><span class="plan-period"> único</span></div>
+        <p class="plan-desc">Pague uma vez, tenha acesso para sempre. Inclui todas as atualizações futuras.</p>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li><div class="feature-check fc-yes">✓</div>Tudo do plano Pro</li>
+          <li><div class="feature-check fc-yes">✓</div>Acesso vitalício</li>
+          <li><div class="feature-check fc-yes">✓</div>Todos os mundos futuros</li>
+          <li><div class="feature-check fc-yes">✓</div>Comunidade exclusiva</li>
+          <li><div class="feature-check fc-yes">✓</div>Suporte VIP via WhatsApp</li>
+          <li><div class="feature-check fc-yes">✓</div>Sessão de mentoria 1:1</li>
+          <li><div class="feature-check fc-yes">✓</div>Badge "Fundador" permanente</li>
+        </ul>
+        <a href="#" class="btn-plan btn-plan-outline">Garantir Lifetime</a>
+      </div>
+    </div>
+    <div class="plan-guarantee">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Garantia de 7 dias. Se não gostar, devolvemos 100% do valor sem perguntas.
+    </div>
+    <div class="pricing-extra">
+      <div class="pe-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Sem contrato de fidelidade</div>
+      <div class="pe-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Cancele quando quiser</div>
+      <div class="pe-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Stripe — 100% seguro</div>
+      <div class="pe-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Suporte em português</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="faq-inner">
+    <div style="text-align:center" class="reveal">
+      <div class="sec-label">Dúvidas</div>
+      <h2 class="sec-title">Perguntas frequentes</h2>
+    </div>
+    <div class="faq-list reveal" id="faqList"></div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-inner reveal">
+    <div class="cta-card">
+      <h2 class="cta-title">Sua primeira venda<br><em style="background:linear-gradient(135deg,#8B5CF6,#A78BFA,#38BDF8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-style:normal">pode acontecer esta semana.</em></h2>
+      <p class="cta-desc">Mais de 1.200 pessoas já estão executando o método. O que falta é você dar o primeiro passo.</p>
+      <div class="cta-actions">
+        <a href="#precos" class="btn-cta-big">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Criar minha conta — 7 dias grátis
+        </a>
+        <div class="cta-fine">Sem cartão de crédito no trial · Cancele quando quiser</div>
+      </div>
+      <div class="cta-guarantee">
+        <div class="cg-item"><div class="cg-dot"></div>7 dias de garantia total</div>
+        <div class="cg-item"><div class="cg-dot"></div>Acesso imediato</div>
+        <div class="cg-item"><div class="cg-dot"></div>Suporte em português</div>
+        <div class="cg-item"><div class="cg-dot"></div>Cancele quando quiser</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="nav-logo" style="text-decoration:none">
+      <div class="logo-mark">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="36" height="36" rx="10" fill="rgba(139,92,246,0.1)" stroke="rgba(139,92,246,0.3)" stroke-width="1"/>
+          <ellipse cx="18" cy="18" rx="10" ry="6.5" fill="none" stroke="#8B5CF6" stroke-width="1.3"/>
+          <circle cx="18" cy="18" r="3.5" fill="none" stroke="#8B5CF6" stroke-width="1.3"/>
+          <circle cx="18" cy="18" r="1.4" fill="#8B5CF6"/>
+          <line x1="18" y1="6" x2="18" y2="11" stroke="#8B5CF6" stroke-width="1.2" stroke-linecap="round" opacity=".65"/>
+          <line x1="13" y1="7" x2="23" y2="7" stroke="#8B5CF6" stroke-width="1.2" stroke-linecap="round" opacity=".65"/>
+          <line x1="18" y1="25" x2="18" y2="30" stroke="#8B5CF6" stroke-width="1.2" stroke-linecap="round" opacity=".65"/>
+          <line x1="13" y1="29" x2="23" y2="29" stroke="#8B5CF6" stroke-width="1.2" stroke-linecap="round" opacity=".65"/>
+        </svg>
+      </div>
+      <span class="logo-word" style="font-size:16px">INVISIO</span>
+    </a>
+    <div class="footer-links">
+      <a href="#">Termos de uso</a>
+      <a href="#">Privacidade</a>
+      <a href="#">Suporte</a>
+      <a href="#">Instagram</a>
+    </div>
+    <div class="footer-copy">© 2025 INVISIO · Todos os direitos reservados</div>
+  </div>
+</footer>
+
+<script>
+const faqs = [
+  {q:"Preciso aparecer na câmera?",a:"Absolutamente não. Um dos pilares do método é a invisibilidade total. Você vai aprender a criar perfis anônimos com conteúdo gerado por IA, textos animados, vozes sintéticas e personas digitais. Nunca precisa mostrar o rosto."},
+  {q:"Funciona mesmo para quem nunca vendeu nada online?",a:"O INVISIO foi desenhado exatamente para iniciantes absolutos. O Mundo 0 começa do básico: criar suas contas nas ferramentas, fazer seu primeiro prompt, entender o que é ser afiliado. O sistema de missões te guia passo a passo sem deixar dúvidas sobre o que fazer a seguir."},
+  {q:"Quanto tempo por dia preciso dedicar?",a:"O mínimo é 30 minutos por dia. Com 1 hora diária você consegue completar o plano de 7 dias e publicar conteúdo regularmente. As ferramentas de IA reduzem drasticamente o tempo de criação — o que levaria 3 horas você faz em 20 minutos."},
+  {q:"Em quanto tempo posso fazer a primeira venda?",a:"Nossos alunos mais rápidos fazem a primeira venda entre o dia 7 e o dia 14. A média é de 3 a 4 semanas para quem segue o método consistentemente. Resultado depende da sua execução, do nicho escolhido e da frequência de publicação."},
+  {q:"Preciso pagar por ferramentas além da mensalidade?",a:"Não para começar. ChatGPT, Canva, CapCut, Linktree e Hotmart têm planos gratuitos suficientes para as primeiras vendas. Você só vai considerar pagar por algo quando já estiver gerando renda e quiser escalar."},
+  {q:"O que acontece se eu não gostar?",a:"Você tem 7 dias de garantia total. Se por qualquer motivo não gostar, basta nos enviar um e-mail e devolvemos 100% do valor sem nenhuma pergunta. Acreditamos tanto no método que não precisamos de contrato."},
+  {q:"Posso acessar no celular?",a:"Sim. A plataforma é responsiva e funciona perfeitamente em qualquer dispositivo. Muitos alunos fazem as missões pelo celular durante o dia e criam conteúdo à noite no computador."},
+];
+
+let faqOpen = -1;
+
+function buildFaq() {
+  const el = document.getElementById('faqList');
+  el.innerHTML = faqs.map((f,i)=>`
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(${i})">
+        ${f.q}
+        <div class="faq-chevron" id="fchev-${i}">▼</div>
+      </div>
+      <div class="faq-answer" id="fans-${i}">
+        <div class="faq-answer-inner">${f.a}</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleFaq(i) {
+  const ans = document.getElementById('fans-'+i);
+  const chev = document.getElementById('fchev-'+i);
+  const isOpen = ans.style.maxHeight && ans.style.maxHeight !== '0px';
+  document.querySelectorAll('.faq-answer').forEach(a=>a.style.maxHeight='0px');
+  document.querySelectorAll('.faq-chevron').forEach(c=>c.classList.remove('open'));
+  if(!isOpen){
+    ans.style.maxHeight = ans.scrollHeight + 'px';
+    chev.classList.add('open');
+  }
+}
+
+function togglePricing(mode) {
+  document.getElementById('btnMonthly').classList.toggle('active', mode==='monthly');
+  document.getElementById('btnAnnual').classList.toggle('active', mode==='annual');
+  const prices = mode==='annual' ? {starter:40,pro:58} : {starter:67,pro:97};
+  document.getElementById('price-starter').textContent = prices.starter;
+  document.getElementById('price-pro').textContent = prices.pro;
+}
+
+// REVEAL OBSERVER
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');observer.unobserve(e.target);}});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// NAV SCROLL
+window.addEventListener('scroll',()=>{
+  const nav = document.getElementById('nav');
+  nav.style.padding = scrollY > 40 ? '10px 0' : '16px 0';
+});
+
+buildFaq();
+</script>
+</body>
+</html>
